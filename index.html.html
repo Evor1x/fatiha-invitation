@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f8f5ed">
+  <title>دعوة قراءة فاتحة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #f8f5ed;
+      --paper: #fffdf8;
+      --gold: #b99b62;
+      --gold-soft: #dfd0aa;
+      --olive: #78816a;
+      --ink: #45483d;
+      --muted: #858477;
+      --line: rgba(185,155,98,.35);
+      --shadow: 0 18px 55px rgba(83,73,48,.12);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; min-height: 100vh; color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 8%, rgba(223,208,170,.24), transparent 28%),
+        radial-gradient(circle at 90% 92%, rgba(120,129,106,.12), transparent 30%),
+        var(--cream);
+      font-family: "Cairo", sans-serif;
+    }
+    button, input, select { font: inherit; }
+    .cover {
+      position: fixed; inset: 0; z-index: 10; display: grid; place-items: center;
+      padding: 22px; background: linear-gradient(145deg,#f5f0e4,#fbf9f3);
+      transition: opacity .8s ease, visibility .8s ease;
+    }
+    .cover.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .envelope-wrap { width: min(390px, 100%); text-align: center; }
+    .cover-kicker { color: var(--olive); letter-spacing: 3px; font-size: 12px; margin-bottom: 22px; }
+    .envelope {
+      position: relative; height: 245px; border: 1px solid var(--gold-soft);
+      border-radius: 12px; background: #fffdf8; box-shadow: var(--shadow);
+      display: grid; place-items: center; overflow: hidden;
+    }
+    .envelope:before, .envelope:after {
+      content: ""; position: absolute; bottom: -1px; width: 0; height: 0;
+      border-left: 195px solid transparent; border-right: 195px solid transparent;
+      border-bottom: 145px solid rgba(223,208,170,.28);
+    }
+    .envelope:after { border-left-width: 194px; border-right-width: 194px; border-bottom-width: 0; border-top: 125px solid rgba(185,155,98,.13); top: -1px; }
+    .seal {
+      z-index: 1; width: 84px; height: 84px; border-radius: 50%; display: grid; place-items: center;
+      color: #fff; background: linear-gradient(145deg,#c9ae79,#a98b53);
+      box-shadow: 0 5px 18px rgba(169,139,83,.28); font-family: "Amiri",serif; font-size: 24px;
+      border: 4px double rgba(255,255,255,.65);
+    }
+    .cover-title { font-family: "Amiri",serif; font-size: 30px; color: #8c7548; margin: 23px 0 4px; }
+    .cover-sub { color: var(--muted); font-size: 13px; margin: 0 0 22px; }
+    .btn {
+      border: 0; border-radius: 999px; padding: 13px 25px; cursor: pointer;
+      background: var(--olive); color: white; box-shadow: 0 8px 20px rgba(120,129,106,.2);
+      transition: transform .2s, background .2s;
+    }
+    .btn:hover { transform: translateY(-2px); background: #68735b; }
+    .btn.gold { background: #ad905a; }
+    .page { width: min(680px, calc(100% - 28px)); margin: 28px auto 42px; }
+    .invitation {
+      position: relative; padding: 34px 23px 30px; background: var(--paper);
+      border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow);
+      text-align: center; overflow: hidden;
+    }
+    .invitation:before {
+      content: ""; position: absolute; inset: 9px; border: 1px solid rgba(185,155,98,.22);
+      border-radius: 14px; pointer-events: none;
+    }
+    .ornament { color: var(--gold); font-size: 24px; letter-spacing: 7px; margin: 3px 0 13px; }
+    .bismillah { font-family: "Amiri",serif; font-size: 26px; color: #92794c; margin: 0 0 10px; }
+    .verse {
+      font-family: "Amiri",serif; font-size: clamp(21px,5vw,29px); line-height: 1.9;
+      color: #626b58; margin: 0 auto 20px; max-width: 570px;
+    }
+    .divider { display: flex; align-items: center; gap: 12px; color: var(--gold); margin: 17px 0; }
+    .divider:before,.divider:after { content:""; height:1px; flex:1; background:var(--line); }
+    .intro { font-size: 15px; line-height: 2.1; color: #747468; margin: 0 auto; max-width: 500px; }
+    .couple { font-family: "Amiri",serif; font-size: clamp(28px,7vw,39px); color: #8c7548; line-height: 1.7; margin: 12px 0 5px; }
+    .amp { color: var(--gold); font-size: 20px; padding: 0 8px; }
+    .details { display: grid; grid-template-columns: 1fr; gap: 11px; margin: 25px 0 20px; }
+    .detail {
+      padding: 14px 12px; border: 1px solid rgba(185,155,98,.25); border-radius: 13px;
+      background: rgba(248,245,237,.55);
+    }
+    .detail-label { color: var(--olive); font-size: 12px; margin-bottom: 4px; }
+    .detail-value { font-weight: 600; font-size: 15px; }
+    .count-title { color: #8c7548; font-family: "Amiri",serif; font-size: 24px; margin: 22px 0 12px; }
+    .countdown { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; direction: rtl; }
+    .time-box { background: #f4f0e5; border: 1px solid rgba(185,155,98,.24); border-radius: 12px; padding: 11px 3px; }
+    .time-box strong { display: block; font-size: 23px; color: #7b8069; font-weight: 700; }
+    .time-box span { font-size: 10px; color: var(--muted); }
+    .actions { display: grid; gap: 10px; margin: 22px 0 8px; }
+    .actions a, .actions button { width: 100%; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+    .outline { background: transparent; color: var(--olive); border: 1px solid rgba(120,129,106,.55); box-shadow: none; }
+    .rsvp {
+      text-align: right; margin-top: 25px; padding: 21px 16px; border-radius: 15px;
+      background: rgba(248,245,237,.72); border: 1px solid rgba(185,155,98,.25);
+    }
+    .rsvp h2 { text-align: center; font-family: "Amiri",serif; font-size: 25px; font-weight: 400; color: #8c7548; margin: 0 0 14px; }
+    label { display: block; font-size: 13px; color: #686b5d; margin: 10px 0 6px; }
+    input, select {
+      width: 100%; padding: 12px 13px; border: 1px solid #ded6c3; border-radius: 10px;
+      background: #fffefa; color: var(--ink); outline: none;
+    }
+    input:focus,select:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(185,155,98,.12); }
+    .rsvp .btn { margin-top: 14px; width: 100%; }
+    .note { color: var(--muted); font-size: 11px; line-height: 1.8; text-align: center; margin: 10px 0 0; }
+    .footer { color: #999381; font-family: "Amiri",serif; font-size: 19px; margin-top: 23px; }
+    .reveal { animation: rise .9s both; }
+    @keyframes rise { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+    @media (min-width: 560px) {
+      .page { margin-top: 45px; }
+      .invitation { padding: 46px 48px 38px; }
+      .details { grid-template-columns: repeat(3,1fr); }
+      .actions { grid-template-columns: 1fr 1fr; }
+      .actions .wide { grid-column: 1 / -1; }
+      .rsvp { padding: 24px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; scroll-behavior:auto !important; } }
+  </style>
+</head>
+<body>
+  <section class="cover" id="cover" aria-label="غلاف الدعوة">
+    <div class="envelope-wrap">
+      <div class="cover-kicker">بكل الود والمحبة</div>
+      <div class="envelope"><div class="seal">دعوة</div></div>
+      <div class="cover-title">دعوة خاصة</div>
+      <p class="cover-sub">يسعدنا أن تشاركونا لحظتنا الجميلة</p>
+      <button class="btn gold" id="openInvite">افتح الدعوة</button>
+    </div>
+  </section>
+
+  <main class="page" id="main" hidden>
+    <article class="invitation reveal">
+      <div class="ornament">✦ ❧ ✦</div>
+      <p class="bismillah">بسم الله الرحمن الرحيم</p>
+      <p class="verse">﴿وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً﴾</p>
+      <div class="divider">❀</div>
+      <p class="intro">بكل الحب والسرور، نتشرف بدعوتكم لمشاركتنا فرحتنا وحضور قراءة فاتحة</p>
+      <h1 class="couple"><span id="groomName">اسم العريس</span><span class="amp">و</span><span id="brideName">اسم العروس</span></h1>
+      <p class="intro">بحضوركم تكتمل فرحتنا، ونسعد بمشاركتكم أجمل لحظاتنا</p>
+
+      <section class="details" aria-label="تفاصيل المناسبة">
+        <div class="detail"><div class="detail-label">اليوم والتاريخ</div><div class="detail-value" id="dateText">الجمعة 20 نوفمبر 2026</div></div>
+        <div class="detail"><div class="detail-label">الوقت</div><div class="detail-value" id="timeText">الساعة 8:00 مساءً</div></div>
+        <div class="detail"><div class="detail-label">المكان</div><div class="detail-value" id="placeText">اسم المكان أو العنوان</div></div>
+      </section>
+
+      <h2 class="count-title">ننتظر فرحتكم بعد...</h2>
+      <div class="countdown" aria-live="polite">
+        <div class="time-box"><strong id="days">--</strong><span>يوم</span></div>
+        <div class="time-box"><strong id="hours">--</strong><span>ساعة</span></div>
+        <div class="time-box"><strong id="minutes">--</strong><span>دقيقة</span></div>
+        <div class="time-box"><strong id="seconds">--</strong><span>ثانية</span></div>
+      </div>
+      <div class="actions">
+        <a class="btn" id="mapButton" href="https://maps.google.com/" target="_blank" rel="noopener">⌖ موقع المكان على الخريطة</a>
+        <button class="btn outline" id="calendarButton">＋ إضافة إلى التقويم</button>
+      </div>
+
+      <form class="rsvp" id="rsvpForm">
+        <h2>تأكيد الحضور</h2>
+        <label for="guestName">الاسم</label>
+        <input id="guestName" name="guestName" type="text" placeholder="اكتب اسمك الكريم" autocomplete="name" required>
+        <label for="attendance">هل ستتمكن من الحضور؟</label>
+        <select id="attendance" name="attendance" required>
+          <option value="سأحضر بكل سرور">سأحضر بكل سرور</option>
+          <option value="أعتذر لظروف خاصة">أعتذر لظروف خاصة</option>
+        </select>
+        <button class="btn gold" type="submit">إرسال الرد عبر واتساب</button>
+        <p class="note">سيتم فتح واتساب برسالة جاهزة، ويمكنك مراجعتها وإرسالها.</p>
+      </form>
+      <div class="footer">دامت دياركم عامرة بالأفراح والمسرات</div>
+      <div class="ornament">✦ ❧ ✦</div>
+    </article>
+  </main>
+
+  <script>
+    /*
+      عدّل البيانات التالية فقط لتخصيص الدعوة:
+      - eventDate: التاريخ والوقت بصيغة YYYY-MM-DDTHH:MM:SS
+      - whatsappNumber: رقم دولي بدون + أو مسافات (مثال مصر: 2010xxxxxxxx)
+      - mapsUrl: رابط مشاركة موقع المناسبة من خرائط Google
+    */
+    const INVITATION = {
+      groom: "اسم العريس",
+      bride: "اسم العروس",
+      dateText: "الجمعة 20 نوفمبر 2026",
+      timeText: "الساعة 8:00 مساءً",
+      place: "اسم المكان أو العنوان",
+      eventDate: "2026-11-20T20:00:00",
+      mapsUrl: "https://maps.google.com/",
+      whatsappNumber: "2010xxxxxxxx"
+    };
+
+    document.getElementById("groomName").textContent = INVITATION.groom;
+    document.getElementById("brideName").textContent = INVITATION.bride;
+    document.getElementById("dateText").textContent = INVITATION.dateText;
+    document.getElementById("timeText").textContent = INVITATION.timeText;
+    document.getElementById("placeText").textContent = INVITATION.place;
+    document.getElementById("mapButton").href = INVITATION.mapsUrl;
+
+    const cover = document.getElementById("cover");
+    const main = document.getElementById("main");
+    document.getElementById("openInvite").addEventListener("click", () => {
+      main.hidden = false;
+      cover.classList.add("hidden");
+      document.body.style.overflow = "auto";
+      window.setTimeout(() => cover.remove(), 850);
+    });
+
+    const eventTime = new Date(INVITATION.eventDate).getTime();
+    const pad = n => String(n).padStart(2, "0");
+    function updateCountdown() {
+      const distance = eventTime - Date.now();
+      if (!Number.isFinite(eventTime) || distance <= 0) {
+        ["days","hours","minutes","seconds"].forEach(id => document.getElementById(id).textContent = "0");
+        document.querySelector(".count-title").textContent = "نسعد بذكريات هذا اليوم الجميل";
+        return;
+      }
+      const days = Math.floor(distance / 86400000);
+      const hours = Math.floor((distance % 86400000) / 3600000);
+      const minutes = Math.floor((distance % 3600000) / 60000);
+      const seconds = Math.floor((distance % 60000) / 1000);
+      document.getElementById("days").textContent = days;
+      document.getElementById("hours").textContent = pad(hours);
+      document.getElementById("minutes").textContent = pad(minutes);
+      document.getElementById("seconds").textContent = pad(seconds);
+    }
+    updateCountdown();
+    window.setInterval(updateCountdown, 1000);
+
+    document.getElementById("rsvpForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const name = document.getElementById("guestName").value.trim();
+      const attendance = document.getElementById("attendance").value;
+      if (!name) return;
+      if (!/^\d{10,15}$/.test(INVITATION.whatsappNumber) || INVITATION.whatsappNumber.includes("x")) {
+        alert("يرجى إضافة رقم واتساب صحيح بصيغة دولية داخل إعدادات الدعوة أولاً.");
+        return;
+      }
+      const message = `السلام عليكم، أنا ${name}.\n${attendance} بخصوص دعوة قراءة الفاتحة.`;
+      const url = `https://wa.me/${INVITATION.whatsappNumber}?text=${encodeURIComponent(message)}`;
+      window.open(url, "_blank", "noopener,noreferrer");
+    });
+
+    document.getElementById("calendarButton").addEventListener("click", () => {
+      const start = new Date(INVITATION.eventDate);
+      if (Number.isNaN(start.getTime())) {
+        alert("يرجى التأكد من تاريخ المناسبة داخل إعدادات الدعوة.");
+        return;
+      }
+      // مدة افتراضية ساعتان؛ يمكن تعديلها من هنا.
+      const end = new Date(start.getTime() + 2 * 60 * 60 * 1000);
+      const toICS = date => date.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+      const escapeICS = value => String(value).replace(/\\/g,"\\\\").replace(/,/g,"\\,").replace(/;/g,"\\;").replace(/\n/g,"\\n");
+      const ics = [
+        "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Invitation//Arabic Invitation//AR",
+        "CALSCALE:GREGORIAN","BEGIN:VEVENT",
+        `UID:${Date.now()}@invitation.local`,
+        `DTSTAMP:${toICS(new Date())}`,
+        `DTSTART:${toICS(start)}`,
+        `DTEND:${toICS(end)}`,
+        `SUMMARY:${escapeICS("قراءة فاتحة - " + INVITATION.groom + " و " + INVITATION.bride)}`,
+        `LOCATION:${escapeICS(INVITATION.place)}`,
+        `DESCRIPTION:${escapeICS("يسعدنا حضوركم ومشاركتنا فرحتنا")}`,
+        "END:VEVENT","END:VCALENDAR"
+      ].join("\r\n");
+      const blob = new Blob([ics], {type:"text/calendar;charset=utf-8"});
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url; link.download = "invitation.ics";
+      document.body.appendChild(link); link.click(); link.remove();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>
